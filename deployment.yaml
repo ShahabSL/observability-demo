@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: observability-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: observability-demo
+  template:
+    metadata:
+      labels:
+        app: observability-demo
+    spec:
+      containers:
+      - name: app
+        image: observability-demo:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: observability-demo
+spec:
+  selector:
+    app: observability-demo
+  ports:
+  - port: 80
+    targetPort: 8080
+  type: ClusterIP
